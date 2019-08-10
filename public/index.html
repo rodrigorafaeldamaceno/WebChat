@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>WebChat</title>
-    <script src="https: //cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js'></script>
     <link rel='stylesheet' href='style.css'>
 </head>
 
@@ -19,6 +19,46 @@
         <button type="submit">Enviar</button>
     </form>
 
+    <script type='text/javascript'>
+        var socket = io('http://localhost:3000')
+        //console.log("teste")
+
+        function renderMessage(message) {
+            $('.messages').append('<div class="message"><strong>' +
+                message.username + '</strong>: ' + message.message + '</div>')
+        }
+
+        socket.on('previousMessages', messages => {
+            for (message of messages) {
+                renderMessage(message)
+            }
+        })
+
+
+        socket.on('receivedMessage', message => {
+            renderMessage(message)
+        })
+
+
+        $('#chat').submit(event => {
+            event.preventDefault();
+
+            var username = $('input[name=username]').val()
+            var message = $('input[name=message] ').val()
+
+            if (username.length && message.length) {
+                var messageObject = {
+                    username: username,
+                    message: message,
+                }
+            }
+
+
+            renderMessage(messageObject)
+
+            socket.emit('sendMessage', messageObject)
+        })
+    </script>
 </body>
 
 </html>

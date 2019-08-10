@@ -1,6 +1,7 @@
 html,
 body {
     height: 100%;
+    background: darkslategrey;
 }
 
 * {
@@ -23,6 +24,7 @@ input {
     height: 50px;
     padding: 0 20px;
     font-size: 14px;
+    background: #E0EEEE
 }
 
 button {
@@ -43,4 +45,6 @@ button {
     margin: 20px 0;
     border: 1px solid #ddd;
     padding: 20px;
+    background: #E0EEEE;
+
 }

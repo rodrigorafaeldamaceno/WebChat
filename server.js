@@ -14,4 +14,19 @@ app.use('/', (req, res) => {
     res.render('index.html')
 })
 
+let messages = []
+
+//um client se conecta ao socket
+io.on('connection', socket => {
+    socket.emit('previousMessages', messages)
+    
+    //recebendo o socket
+    socket.on('sendMessage', data => {
+        //console.log(data)
+        messages.push(data)
+        socket.broadcast.emit('receivedMessage', data)
+
+    })
+})
+
 server.listen(3000)
